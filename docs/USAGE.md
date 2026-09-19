@@ -1,4 +1,4 @@
-# Windows ARM64 使用说明 / usage
+# Windows ARM64 使用说明
 
 这是社区构建，并非 RetroArch 或 FBNeo 团队的官方发行版。
 
@@ -17,8 +17,6 @@ FBNeo 包中的许可证请一并保留。
 菜单、核心 ABI/初始化和空测试 ZIP 的错误提示路径，没有验证真实游戏、手柄、
 联机或性能。空测试 ZIP 出现“未知集组”是预期行为，不代表任何游戏已通过测试。
 
-English: extract RetroArch, then merge the optional FBNeo `cores` and `info`
-directories into it. Launch `retroarch.exe`, load the core and your own content.
-Native ARM64 cores are required. See `THIRD_PARTY_NOTICES.md` for component licenses.
-Matching source and build scripts are available alongside binaries at:
+各组件许可证见 `THIRD_PARTY_NOTICES.md`。与程序对应的完整源码和构建脚本，
+可在同一发行页面下载：
 https://github.com/dakehero/retroarch-windows-arm64/releases
