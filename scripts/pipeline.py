@@ -4,6 +4,7 @@ from pathlib import Path
 import argparse
 import hashlib
 import json
+import os
 import shutil
 import struct
 import subprocess
@@ -217,10 +218,11 @@ def package():
         outputs.append(archive)
     build_archive = dist / 'build-scripts.zip'
     with zipfile.ZipFile(build_archive,'w',zipfile.ZIP_DEFLATED) as out:
-        for path in sorted(ROOT.rglob('*')):
-            if not path.is_file() or any(part in {'.git','.work','dist','__pycache__'} for part in path.relative_to(ROOT).parts):
-                continue
-            out.write(path, Path('retroarch-windows-arm64') / path.relative_to(ROOT))
+        for parent, dirs, files in os.walk(ROOT):
+            dirs[:] = sorted(d for d in dirs if d not in {'.git','.work','dist','__pycache__'})
+            for name in sorted(files):
+                path = Path(parent) / name
+                out.write(path, Path('retroarch-windows-arm64') / path.relative_to(ROOT))
     outputs.append(build_archive)
     (dist/'SHA256SUMS.txt').write_text(''.join(f'{sha256(p)}  {p.name}\n' for p in outputs),encoding='utf-8')
     print('\n'.join(str(p) for p in outputs))
