@@ -15,5 +15,13 @@ The CI result is attached to the specific workflow commit/run. A local test does
 not certify a separately compiled CI binary. Local graphics checks and CI null
 driver checks must be reported separately in release notes.
 
+The original v1.22.2-arm64.1 CI run appended duplicate configuration keys, which
+did not override the default drivers. Its successful integration runs therefore
+did not establish null-driver coverage. Commit dc0aa29 fixes this with a separate
+`--appendconfig` file and asserts the selected null display server in the log.
+The released binaries were subsequently retested locally with the corrected
+script in both null-video and D3D11/WASAPI modes. Release `VALIDATION.json` records
+that distinction and the unchanged binary hashes.
+
 Not covered: actual ROM gameplay, gamepads, netplay, save-state compatibility,
 performance, HDR, other GPUs, or other computers. No ROM is downloaded for tests.
