@@ -48,11 +48,12 @@ def main(graphics):
     for name in ('retroarch.exe','fbneo_libretro.dll'):
         shutil.copy2(WORK/'bin'/name, directory/name)
     cfg = (ROOT/'config/retroarch.cfg').read_text()
-    cfg += '\nconfig_save_on_exit = "false"\npause_nonactive = "false"\nmenu_pause_libretro = "false"\nhistory_list_enable = "false"\n'
-    cfg += f'assets_directory = "{(WORK / "assets").as_posix()}"\n'
+    override = 'config_save_on_exit = "false"\npause_nonactive = "false"\nmenu_pause_libretro = "false"\nhistory_list_enable = "false"\n'
+    override += f'assets_directory = "{(WORK / "assets").as_posix()}"\n'
     if not graphics:
-        cfg += 'video_driver = "null"\naudio_driver = "null"\nmenu_driver = "rgui"\n'
+        override += 'video_driver = "null"\naudio_enable = "false"\nmenu_driver = "rgui"\n'
     (directory/'retroarch.cfg').write_text(cfg,encoding='utf-8')
+    (directory/'override.cfg').write_text(override,encoding='utf-8')
     with zipfile.ZipFile(directory/'arm64-smoke-no-rom.zip','w'):
         pass
     hidden = subprocess.STARTUPINFO()
@@ -67,7 +68,8 @@ def main(graphics):
         screenshot = directory/f'{name}.png'
         if screenshot.exists():
             screenshot.unlink()
-        args = [str(directory/'retroarch.exe'),'--config',str(directory/'retroarch.cfg'),'--verbose',
+        args = [str(directory/'retroarch.exe'),'--config',str(directory/'retroarch.cfg'),
+                '--appendconfig',str(directory/'override.cfg'),'--verbose',
                 '--log-file',str(logfile),'--max-frames','180']
         if name == 'menu':
             args += ['--menu']
@@ -79,12 +81,14 @@ def main(graphics):
         if process.returncode:
             raise RuntimeError(f'{name}: exit {process.returncode}; inspect {logfile}')
         log = logfile.read_text(encoding='utf-8',errors='replace')
+        if not graphics and '[Video] Found display server: "null"' not in log:
+            raise ValueError(f'{name}: the null display server was not initialized')
         if name == 'fbneo' and '[FBNeo]' not in log:
             raise ValueError('Frontend did not initialize FBNeo')
         if graphics and (not screenshot.is_file() or screenshot.read_bytes()[:8] != b'\x89PNG\r\n\x1a\n'):
             raise ValueError(f'Missing valid {name} GPU screenshot')
         results[name] = {'frames':180,'exit_code':0,'gpu_screenshot':graphics}
-    results['mode'] = 'D3D11/WASAPI' if graphics else 'null video/audio (CI)'
+    results['mode'] = 'D3D11/WASAPI' if graphics else 'null video, audio disabled (driver selection asserted)'
     results['content'] = 'empty ZIP: expected FBNeo unknown-romset screen; no gameplay coverage'
     dest = WORK/('validation-graphics.json' if graphics else 'validation-ci.json')
     dest.write_text(json.dumps(results,indent=2)+'\n',encoding='utf-8')

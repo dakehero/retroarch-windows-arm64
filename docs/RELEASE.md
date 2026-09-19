@@ -7,7 +7,7 @@ Unofficial native Windows ARM64 builds of RetroArch 1.22.2 and FinalBurn Neo.
 - Separate matching patched source archives, build scripts, and SHA-256 checksums are included.
 
 CI checks ARM64 PE architecture, libretro ABI/init/deinit, and frontend/core
-integration for 180 frames with null video/audio and an empty synthetic ZIP.
+integration for 180 frames with null video with audio disabled and an empty synthetic ZIP.
 The expected FBNeo unknown-romset error is not a gameplay test. D3D11/WASAPI
 graphics tests require separate real-hardware validation; see the release-specific
 validation note when present. Game compatibility, performance, controllers,

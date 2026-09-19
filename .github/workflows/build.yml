@@ -32,7 +32,7 @@ jobs:
         run: ./scripts/Build.ps1
       - name: Fetch verified resources and licenses
         run: python scripts/pipeline.py assets
-      - name: Native ABI and frontend/core integration (null video/audio)
+      - name: Native ABI and frontend/core integration (null video with audio disabled)
         run: python scripts/smoke.py
       - name: Package binaries with corresponding source
         run: python scripts/pipeline.py package

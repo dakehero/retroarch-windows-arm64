@@ -7,7 +7,7 @@ GPU screenshot, libretro ABI/init/deinit, and frontend/core integration with an
 empty ZIP all passed. The latter renders FBNeo's expected unknown-romset message.
 
 The public scripts repeat architecture, version, ABI and frontend/core checks.
-`scripts/smoke.py` uses null video/audio for CI. `--graphics` requires the D3D11
+`scripts/smoke.py` uses null video with audio disabled for CI. `--graphics` requires the D3D11
 menu and synthetic FBNeo error screen to run for 180 frames and produce PNG
 screenshots, with exit code zero. JSON results are saved below `.work/`.
 

@@ -49,7 +49,7 @@ build timestamps can change binary hashes; byte-for-byte reproducibility is not 
 ## CI and publishing
 
 Pushes and pull requests build both ARM64 binaries and run ABI and frontend/core
-integration smoke checks on a Windows ARM64 runner. These use null video/audio;
+integration smoke checks on a Windows ARM64 runner. These use null video with audio disabled;
 they do not validate GPU drivers, audio hardware, controllers, or game compatibility.
 
 A `v*` tag runs the same build/checks, then creates a **draft prerelease** containing
