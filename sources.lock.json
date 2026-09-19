@@ -1,0 +1,29 @@
+{
+  "retroarch": {
+    "version": "1.22.2",
+    "ref": "v1.22.2",
+    "archive": "retroarch-sourceonly-1.22.2.tar.xz",
+    "directory": "retroarch-sourceonly-1.22.2",
+    "url": "https://github.com/libretro/RetroArch/releases/download/v1.22.2/retroarch-sourceonly-1.22.2.tar.xz",
+    "sha256": "2a8b1713f7f4d2b53bad3e2297e48d78f5666098cf00d583d3e08f3c213f8aa6"
+  },
+  "fbneo": {
+    "ref": "6bb3167a044e19e7106a5110d5531aa9c6afa96f",
+    "archive": "fbneo-source.tar.gz",
+    "directory": "FBNeo-6bb3167a044e19e7106a5110d5531aa9c6afa96f",
+    "url": "https://codeload.github.com/libretro/FBNeo/tar.gz/6bb3167a044e19e7106a5110d5531aa9c6afa96f",
+    "sha256": "7d4cacbd55e74c5cd973fbe63d1c75b8dbe5c29b61593d8185be60483d29c892"
+  },
+  "assets": {
+    "ref": "73106363e14e34c08a5854b4cfbc29f184e3b783"
+  },
+  "core_info": {
+    "ref": "5a74858ab2f7a50cebb5a6330895bc38899531c0",
+    "url": "https://raw.githubusercontent.com/libretro/libretro-core-info/5a74858ab2f7a50cebb5a6330895bc38899531c0/fbneo_libretro.info",
+    "sha256": "c95c3e177d61adf6662af7adf7361d7fefd9cd87ab0773d105a97818767e5815"
+  },
+  "msvc_files": {
+    "RetroArch-msvc2022.sln": "7665b193cc12a43239d8e2c699ba107202d49f13aabf585c8b6f2948e1b7ea4e",
+    "msvc-2022/RetroArch-msvc2022.vcxproj": "4f28f849f83d1796e3f6662c5702b8150a5c15f985db34e8489279911bfe3d9e"
+  }
+}

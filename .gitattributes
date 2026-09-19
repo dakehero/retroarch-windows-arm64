@@ -1,0 +1,10 @@
+* text=auto
+*.py text eol=lf
+*.ps1 text eol=lf
+*.yml text eol=lf
+*.patch text eol=lf
+*.json text eol=lf
+# Preserve byte-for-byte upstream files whose hashes or verbatim licenses matter.
+vendor/** -text
+licenses/** -text
+*.patch whitespace=-blank-at-eol,-blank-at-eof

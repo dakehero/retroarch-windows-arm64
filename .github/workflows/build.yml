@@ -1,0 +1,72 @@
+name: Windows ARM64 build and smoke checks
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: arm64-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+jobs:
+  build:
+    runs-on: windows-11-vs2026-arm
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Inspect installed tools
+        run: |
+          python --version
+          cmake --version
+          git --version
+      - name: Build both native ARM64 binaries
+        run: ./scripts/Build.ps1
+      - name: Fetch verified resources and licenses
+        run: python scripts/pipeline.py assets
+      - name: Native ABI and frontend/core integration (null video/audio)
+        run: python scripts/smoke.py
+      - name: Package binaries with corresponding source
+        run: python scripts/pipeline.py package
+      - name: Upload complete distribution
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: windows-arm64-distribution
+          path: dist/*
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload check results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: arm64-check-results
+          path: .work/validation-ci.json
+          if-no-files-found: ignore
+
+  draft-release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: windows-arm64-distribution
+          path: dist
+      - name: Create reviewable prerelease draft
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          gh release create "$RELEASE_TAG" dist/* --verify-tag --draft --prerelease --title "Windows ARM64 community build $RELEASE_TAG" --notes-file docs/RELEASE.md
