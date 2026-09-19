@@ -1,22 +1,28 @@
-# Windows ARM64 使用说明
+# Windows ARM64 usage guide
 
-这是社区构建，并非 RetroArch 或 FBNeo 团队的官方发行版。
+This is a community build, not an official release from the RetroArch or FBNeo teams.
 
-解压 RetroArch 包后运行 `retroarch.exe`。安装 FBNeo 时，把 FBNeo 包内的
-`cores/fbneo_libretro.dll` 和 `info/fbneo_libretro.info` 分别复制到 RetroArch
-目录中的同名文件夹。然后在「加载核心」中选择 FinalBurn Neo，再加载游戏。
-FBNeo 包中的许可证请一并保留。
+Extract the RetroArch package and run `retroarch.exe`. To install FBNeo, copy
+`cores/fbneo_libretro.dll` and `info/fbneo_libretro.info` from the separate FBNeo
+package into the matching directories inside RetroArch. Retain the accompanying
+FBNeo license files. Select FinalBurn Neo under Load Core, then load your content.
 
-仅支持 Windows ARM64。x64/x86 核心不能由这个 ARM64 主程序加载。
-未提供完整在线核心服务器；此版本的 FBNeo 核心通过独立附件安装。
+Windows ARM64 is required. The ARM64 frontend cannot load x64 or x86 cores.
+This project does not provide a complete online core server; install the supplied
+FBNeo core from the separate release attachment.
 
-默认 Ozone 简体中文菜单、D3D11 视频和 WASAPI 音频。存档在 `saves`，即时状态
-在 `states`，截图在 `screenshots`，系统文件在 `system`。不要解压到只读目录。
+Defaults are Ozone with Simplified Chinese, D3D11 video, and WASAPI audio.
+Change the menu language under Settings → User → Language. Save files are stored
+in `saves`, save states in `states`, screenshots in `screenshots`, and system
+files in `system`. Extract into a writable directory.
 
-不附带 ROM/BIOS。请自行提供有权使用且与核心相匹配的内容。首次发布只验证了
-菜单、核心 ABI/初始化和空测试 ZIP 的错误提示路径，没有验证真实游戏、手柄、
-联机或性能。空测试 ZIP 出现“未知集组”是预期行为，不代表任何游戏已通过测试。
+No ROMs or BIOS files are included. Supply content you have the right to use and
+that matches the core's expected ROM set. Initial checks cover the menu, libretro
+ABI/initialization, and the error path for an empty synthetic ZIP. They do not
+cover actual gameplay, controllers, netplay, save-state compatibility, or performance.
+An unknown-romset message for the empty test ZIP is expected and does not establish
+game compatibility.
 
-各组件许可证见 `THIRD_PARTY_NOTICES.md`。与程序对应的完整源码和构建脚本，
-可在同一发行页面下载：
+See `THIRD_PARTY_NOTICES.md` for component licenses. Matching complete source and
+build scripts are available alongside binaries on the same release page:
 https://github.com/dakehero/retroarch-windows-arm64/releases
