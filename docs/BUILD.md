@@ -14,12 +14,14 @@ GNU Make 4.x. The source makefile hashes are checked before every CMake generati
 When updating FBNeo, update the lock, regenerate the manifest and inspect the
 driver/define changes. Never silently reuse a manifest from a different revision.
 
-For offline source inspection, unpack the two release source archives under
-`.work/sources/`. For an offline build, also place the original source archives
-named in `sources.lock.json` under `.work/downloads/`; they are included unchanged
-upstream downloads. Build.ps1 checks the cached downloads and applies patches
-idempotently. Source archives already contain the generated CMake project, so
-advanced users can also invoke MSBuild/CMake directly using Build.ps1 as reference.
+For an offline build, verify the release checksums and unpack both release source
+archives under `.work/sources/` inside the extracted build-scripts directory.
+Build.ps1 reuses those trees and applies patches idempotently; no original source
+download is needed. If a source tree is absent, it downloads the original pinned
+archive (or verifies a cached copy in `.work/downloads/`) and extracts it first.
+Existing source trees are trusted local input, so use a clean directory when
+checking an upstream version change. Source archives already contain the generated
+CMake project; MSBuild/CMake can also be invoked directly as in Build.ps1.
 
 Build scripts normalize inherited Windows environment variable key casing in
 child processes to accommodate MSBuild/.NET Framework. They do not persistently

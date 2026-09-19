@@ -106,10 +106,10 @@ set_target_properties(fbneo_libretro PROPERTIES PREFIX "" OUTPUT_NAME "fbneo_lib
 def prepare():
     for component in ('retroarch', 'fbneo'):
         entry = LOCK[component]
-        archive = WORK / 'downloads' / entry['archive']
-        download(entry['url'], archive, entry['sha256'])
         directory = source(component)
         if not directory.exists():
+            archive = WORK / 'downloads' / entry['archive']
+            download(entry['url'], archive, entry['sha256'])
             directory.parent.mkdir(parents=True, exist_ok=True)
             with tarfile.open(archive) as tar:
                 tar.extractall(directory.parent, filter='data')
